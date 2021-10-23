@@ -42,13 +42,15 @@ namespace PtouchPrintSender
 			}
 		}
 
-		public void Print(string address, string name)
+		public void Print(Dictionary<string, string> fields)
 		{
 			var document = this.GetDocumentObject();
-			// 住所
-			document.GetObject("AddressText").Text = address;
-			// おなまえ
-			document.GetObject("NameText").Text = name;
+
+			foreach (var e in fields)
+			{
+				document.GetObject(e.Key).Text = e.Value;
+			}
+
 			// 印刷
 			document.StartPrint("DocumentName", bpac.PrintOptionConstants.bpoAutoCut);
 			document.PrintOut(1, bpac.PrintOptionConstants.bpoAutoCut);
