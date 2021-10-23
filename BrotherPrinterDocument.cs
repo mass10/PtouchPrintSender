@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace PtouchPrintSender
 {
 	/// <summary>
-	/// b-PAC プリンタードライバーを中継するもの
+	/// brother の b-PAC(Brother P-touch Applicable Component、COM コンポーネント)を用いて、プリンター出力を行うクラスです。
 	/// </summary>
 	sealed class BrotherPrinterDocument
 	{
