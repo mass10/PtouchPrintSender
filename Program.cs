@@ -22,8 +22,13 @@ namespace PtouchPrintSender
 				// テンプレートファイルにアタッチ
 				doc.AttachDocumentTemplate("C:\\path\\to\\your\\DATA\\template.lbx");
 
+				// AddressText
+				var fields = new Dictionary<string, string>();
+				fields["AddressText"] = "999-9999 東京都千代田区大手町 1-1";
+				fields["NameText"] = "OTE MACHICO";
+
 				// アドレスを印刷
-				doc.Print("999-9999 東京都千代田区大手町 1-1", "OTE MACHICO");
+				doc.Print(fields);
 			}
 			catch (Exception e)
 			{
