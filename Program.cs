@@ -20,7 +20,7 @@ namespace PtouchPrintSender
 				var document = new BrotherPrinterDocument();
 
 				// テンプレートファイルにアタッチ
-				document.AttachDocumentTemplate("template.lbx");
+				document.AttachDocumentTemplate("..\\..\\宛名.lbx");
 
 				// AddressText
 				var fields = new Dictionary<string, string>();
