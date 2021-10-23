@@ -17,10 +17,10 @@ namespace PtouchPrintSender
 			try
 			{
 				// ドキュメントオブジェクトを初期化
-				var doc = new BrotherPrinterDocument();
+				var document = new BrotherPrinterDocument();
 
 				// テンプレートファイルにアタッチ
-				doc.AttachDocumentTemplate("C:\\path\\to\\your\\DATA\\template.lbx");
+				document.AttachDocumentTemplate("template.lbx");
 
 				// AddressText
 				var fields = new Dictionary<string, string>();
@@ -28,7 +28,7 @@ namespace PtouchPrintSender
 				fields["NameText"] = "OTE MACHICO";
 
 				// アドレスを印刷
-				doc.Print(fields);
+				document.Print(fields);
 			}
 			catch (Exception e)
 			{
