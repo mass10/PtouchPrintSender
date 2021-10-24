@@ -22,6 +22,8 @@ namespace PtouchPrintSender
 		public BrotherPrinterDocument()
 		{
 			this._document = new bpac.Document();
+			// まとめて印刷した方がパフォーマンスが向上します。
+			// this._document.StartPrint("DocumentName", bpac.PrintOptionConstants.bpoAutoCut);
 		}
 
 		/// <summary>
@@ -62,6 +64,8 @@ namespace PtouchPrintSender
 		/// </summary>
 		public void Close()
 		{
+			// まとめて印刷した方がパフォーマンスが向上します。
+			// this._document.EndPrint();
 			this._document.Close();
 		}
 	}
