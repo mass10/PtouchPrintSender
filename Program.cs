@@ -14,25 +14,40 @@ namespace PtouchPrintSender
 		/// <param name="args">コマンドライン引数</param>
 		public static void Main(string[] args)
 		{
+			// ドキュメントオブジェクトを初期化
+			var document = new BrotherPrinterDocument();
+
 			try
 			{
-				// ドキュメントオブジェクトを初期化
-				var document = new BrotherPrinterDocument();
-
 				// テンプレートファイルにアタッチ
 				document.AttachDocumentTemplate("..\\..\\宛名.lbx");
 
-				// AddressText
-				var fields = new Dictionary<string, string>();
-				fields["AddressText"] = "999-9999 東京都千代田区大手町 1-1";
-				fields["NameText"] = "OTE MACHICO";
+				var reader = new System.IO.StreamReader("..\\..\\ADDRESS.tsv", System.Text.Encoding.UTF8);
+				while (true)
+				{
+					var line = reader.ReadLine();
+					if (line == null)
+						break;
 
-				// アドレスを印刷
-				document.Print(fields);
+					var fields = line.Split('\t');
+
+					var items = new Dictionary<string, string>();
+					items["AddressText"] = String.Format("{0} {1}", fields[0], fields[1]);
+					items["NameText"] = fields[2];
+
+					// 印刷
+					document.Print(items);
+
+					Console.WriteLine("[DEBUG] 住所: [{0}], 氏名: [{1}]", items["AddressText"], items["NameText"]);
+				}
 			}
 			catch (Exception e)
 			{
 				Console.WriteLine("[ERROR] 予期しない実行時エラーです。" + e);
+			}
+			finally
+			{
+				document.Close();
 			}
 		}
 	}
