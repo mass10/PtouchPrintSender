@@ -22,6 +22,7 @@ namespace PtouchPrintSender
 				// テンプレートファイルにアタッチ
 				document.AttachDocumentTemplate("..\\..\\宛名.lbx");
 
+				// アドレス帳を開きます。
 				var reader = new System.IO.StreamReader("..\\..\\ADDRESS.tsv", System.Text.Encoding.UTF8);
 				while (true)
 				{
