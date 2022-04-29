@@ -20,6 +20,7 @@ namespace PtouchPrintSender
 			try
 			{
 				// テンプレートファイルにアタッチ
+				// ・P-touch Editor 5.4 で作成したテンプレートファイル
 				document.AttachDocumentTemplate("宛名.lbx");
 
 				// アドレス帳を開きます。
@@ -31,19 +32,32 @@ namespace PtouchPrintSender
 						break;
 
 					var fields = line.Split('\t');
+					// 郵便番号
+					var postCode = RetrieveField(fields, 0);
+					// 住所
+					var address = RetrieveField(fields, 1);
+					// お名前
+					var name = RetrieveField(fields, 2);
+					// 電話番号(もしあれば)
+					var phoneNumber = RetrieveField(fields, 3);
+					// 製品名(もしあれば)
+					var productName = RetrieveField(fields, 4);
+					// サイズ(もしあれば)
+					var size = RetrieveField(fields, 5);
 
 					var items = new Dictionary<string, string>();
-					items["AddressText"] = String.Format("{0} {1}", fields[0], fields[1]);
+					// 宛名
+					items["AddressText"] = String.Format("{0} {1}", postCode, address);
+					// お名前
+					items["NameText"] = FixTargetName(fields[2], "", productName, size);
+					// 配送会社向け連絡先
+					items["PhoneText"] = FormatPhoneNumber(phoneNumber);
 
-					// 電話番号(もしあれば)
-					var phoneNumber = RetrieveField04(fields);
-
-					items["NameText"] = FixTargetName(fields[2], phoneNumber);
+					Console.WriteLine("[DEBUG] 住所: [{0}], 氏名: [{1}], 電話: [{2}]",
+							items["AddressText"], items["NameText"], items["PhoneText"]);
 
 					// 印刷
 					document.Print(items);
-
-					Console.WriteLine("[DEBUG] 住所: [{0}], 氏名: [{1}]", items["AddressText"], items["NameText"]);
 				}
 			}
 			catch (Exception e)
@@ -101,15 +115,24 @@ namespace PtouchPrintSender
 			return true;
 		}
 
+		/// <summary>
+		/// 電話番号のフォーマット
+		/// </summary>
+		/// <param name="phone">電話番号</param>
+		/// <returns></returns>
 		private static string FormatPhoneNumber(string phone)
 		{
+			if (StringUtility.IsEmptyOrNull(phone))
+			{
+				return "";
+			}
 			if (phone.StartsWith("050"))
 			{
 				if (IsNumber(phone))
 				{
 					if (phone.Length == 11)
 					{
-						return $"{phone.Substring(0, 3)}-{phone.Substring(3, 4)}-{phone.Substring(7, 4)}";
+						return $"配送業者様専用電話: {phone.Substring(0, 3)}-{phone.Substring(3, 4)}-{phone.Substring(7, 4)}";
 					}
 				}
 			}
@@ -119,7 +142,7 @@ namespace PtouchPrintSender
 				{
 					if (phone.Length == 11)
 					{
-						return $"{phone.Substring(0, 3)}-{phone.Substring(3, 4)}-{phone.Substring(7, 4)}";
+						return $"配送業者様専用電話: {phone.Substring(0, 3)}-{phone.Substring(3, 4)}-{phone.Substring(7, 4)}";
 					}
 				}
 			}
@@ -129,7 +152,7 @@ namespace PtouchPrintSender
 				{
 					if (phone.Length == 11)
 					{
-						return $"{phone.Substring(0, 3)}-{phone.Substring(3, 4)}-{phone.Substring(7, 4)}";
+						return $"配送業者様専用電話: {phone.Substring(0, 3)}-{phone.Substring(3, 4)}-{phone.Substring(7, 4)}";
 					}
 				}
 			}
@@ -139,7 +162,7 @@ namespace PtouchPrintSender
 				{
 					if (phone.Length == 11)
 					{
-						return $"{phone.Substring(0, 3)}-{phone.Substring(3, 4)}-{phone.Substring(7, 4)}";
+						return $"配送業者様専用電話: {phone.Substring(0, 3)}-{phone.Substring(3, 4)}-{phone.Substring(7, 4)}";
 					}
 				}
 			}
@@ -147,34 +170,53 @@ namespace PtouchPrintSender
 		}
 
 		/// <summary>
-		/// 名前に敬称を付加します。
+		/// お名前、電話番号をフォーマットして返します。
+		///
+		/// Jimi Hendrix 様 (090-0000-0000)
 		/// </summary>
 		/// <param name="name">氏名、もしくは法人名</param>
+		/// <param name="phone">電話番号</param>
 		/// <returns></returns>
-		private static string FixTargetName(string name, string phone)
+		private static string FixTargetName(string name, string phone, string productName, string size)
 		{
-			name = $"{name}様";
+			var line = new StringBuilder();
+			if (StringUtility.IsEmptyOrNull(phone))
+			{
+				line.Append($"{name} 様");
+			}
+			else
+			{
+				line.Append($"{name} 様 ({FormatPhoneNumber(phone)})");
+			}
 
-			if (phone == null)
-				return name;
-			if (phone == "")
-				return name;
+			if (!StringUtility.IsEmptyOrNull(productName))
+			{
+				line.Append(" (");
+				line.Append(productName);
+				if (!StringUtility.IsEmptyOrNull(size))
+				{
+					line.Append($" {size}");
+				}
+				line.Append(")");
+			}
 
-			return $"{name} ({phone})";
+			return line.ToString();
+
 		}
 
 		/// <summary>
-		/// フィールド[4] を取り出します。これは電話番号を意味します。
+		/// フィールドの値を取り出します。
 		/// </summary>
-		/// <param name="fielids"></param>
+		/// <param name="fields">配列</param>
+		/// <param name="index">位置</param>
 		/// <returns></returns>
-		private static string RetrieveField04(string[] fielids)
+		private static string RetrieveField(string[] fields, int index)
 		{
-			if (fielids == null)
+			if (fields == null)
 				return "";
-			if (fielids.Length < 4)
+			if (fields.Length <= index)
 				return "";
-			return "" + fielids[3];
+			return "" + fields[index];
 		}
 	}
 }
