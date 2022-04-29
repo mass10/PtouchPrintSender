@@ -46,10 +46,20 @@ namespace PtouchPrintSender
 
 		public void Print(Dictionary<string, string> fields)
 		{
+			if (fields == null)
+			{
+				throw new Exception("Application Error! reason: filed is null.");
+			}
 			var document = this.GetDocumentObject();
 
 			foreach (var e in fields)
 			{
+				var field = document.GetObject(e.Key);
+				if (field == null)
+				{
+					Console.WriteLine("[ERROR] field is undefined. key: [{0}]", e.Key);
+					continue;
+				}
 				document.GetObject(e.Key).Text = e.Value;
 			}
 
