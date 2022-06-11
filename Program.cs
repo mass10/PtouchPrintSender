@@ -14,6 +14,8 @@ namespace PtouchPrintSender
 		/// <param name="args">コマンドライン引数</param>
 		public static void Main(string[] args)
 		{
+			var conf = ConfigurationManager.configure();
+			
 			// ドキュメントオブジェクトを初期化
 			var document = new BrotherPrinterDocument();
 
@@ -30,12 +32,20 @@ namespace PtouchPrintSender
 					var line = reader.ReadLine();
 					if (line == null)
 						break;
+					if (line == "")
+						continue;
+					if (line[0] == '#')
+						continue;
 
 					var fields = line.Split('\t');
 					// 郵便番号
 					var postCode = RetrieveField(fields, 0);
+					if (postCode == "")
+						continue;
 					// 住所
 					var address = RetrieveField(fields, 1);
+					if (address == "")
+						continue;
 					// お名前
 					var name = RetrieveField(fields, 2);
 					// 電話番号(もしあれば)
@@ -55,6 +65,8 @@ namespace PtouchPrintSender
 
 					Console.WriteLine("[DEBUG] 住所: [{0}], 氏名: [{1}], 電話: [{2}]",
 							items["AddressText"], items["NameText"], items["PhoneText"]);
+
+					if (conf.dryrun) continue;
 
 					// 印刷
 					document.Print(items);
@@ -132,7 +144,7 @@ namespace PtouchPrintSender
 				{
 					if (phone.Length == 11)
 					{
-						return $"配送業者様専用電話: {phone.Substring(0, 3)}-{phone.Substring(3, 4)}-{phone.Substring(7, 4)}";
+						return $"電話: {phone.Substring(0, 3)}-{phone.Substring(3, 4)}-{phone.Substring(7, 4)}";
 					}
 				}
 			}
@@ -142,7 +154,7 @@ namespace PtouchPrintSender
 				{
 					if (phone.Length == 11)
 					{
-						return $"配送業者様専用電話: {phone.Substring(0, 3)}-{phone.Substring(3, 4)}-{phone.Substring(7, 4)}";
+						return $"電話: {phone.Substring(0, 3)}-{phone.Substring(3, 4)}-{phone.Substring(7, 4)}";
 					}
 				}
 			}
@@ -152,7 +164,7 @@ namespace PtouchPrintSender
 				{
 					if (phone.Length == 11)
 					{
-						return $"配送業者様専用電話: {phone.Substring(0, 3)}-{phone.Substring(3, 4)}-{phone.Substring(7, 4)}";
+						return $"電話: {phone.Substring(0, 3)}-{phone.Substring(3, 4)}-{phone.Substring(7, 4)}";
 					}
 				}
 			}
@@ -162,7 +174,7 @@ namespace PtouchPrintSender
 				{
 					if (phone.Length == 11)
 					{
-						return $"配送業者様専用電話: {phone.Substring(0, 3)}-{phone.Substring(3, 4)}-{phone.Substring(7, 4)}";
+						return $"電話: {phone.Substring(0, 3)}-{phone.Substring(3, 4)}-{phone.Substring(7, 4)}";
 					}
 				}
 			}
