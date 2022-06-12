@@ -35,10 +35,10 @@ namespace PtouchPrintSender
 						break;
 
 					if (line == "")
-						// IGNORE
+						// 無視
 						continue;
 					if (line[0] == '#')
-						// IGNORE
+						// 無視
 						continue;
 
 					var fields = line.Split('\t');
