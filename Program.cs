@@ -31,10 +31,14 @@ namespace PtouchPrintSender
 				{
 					var line = reader.ReadLine();
 					if (line == null)
+						// EOF
 						break;
+
 					if (line == "")
+						// IGNORE
 						continue;
 					if (line[0] == '#')
+						// IGNORE
 						continue;
 
 					var fields = line.Split('\t');
