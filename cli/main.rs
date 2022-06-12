@@ -27,7 +27,7 @@ fn format_filetime(time: &std::time::SystemTime) -> String {
 	return format!("{}", timestamp.format("%Y-%m-%d %H:%M:%S%.3f"));
 }
 
-/// ファイルのタイムスタンを返します。
+/// ファイルのタイムスタンプを返します。
 fn get_filetime(path: &str) -> Result<String, Box<dyn std::error::Error>> {
 	let path = std::path::Path::new(path);
 	let metadata = std::fs::metadata(path)?;
@@ -35,31 +35,41 @@ fn get_filetime(path: &str) -> Result<String, Box<dyn std::error::Error>> {
 	return Ok(format_filetime(&system_time));
 }
 
-/// 環境変数を取得する
+/// 環境変数を取得します。
 fn getenv(name: &str) -> String {
 	return std::env::var(name).unwrap_or_else(|_| "".to_string());
 }
 
 /// ソリューションをビルドします。
+///
+/// # Arguments
+/// * `name` - ビルドするソリューションファイル(.sln)へのパス。.csproj などを指定しても構わない。
+fn build_solution(path: &str) -> Result<(), Box<dyn std::error::Error>> {
+	let msbuild = getenv("PP_MSBUILD");
+	execute_command(&[&msbuild, path, r#"/p:configuration=Release"#])?;
+	return Ok(());
+}
+
+/// アプリケーションを実行します。
 fn run() -> Result<(), Box<dyn std::error::Error>> {
-	const MODULE_PATH: &str = r#"bin\Release\PTouchPrintSender.exe"#;
+	// ビルドの出力ファイル
+	const OUT_PATH: &str = r#"bin\Release\PTouchPrintSender.exe"#;
 
 	// 最初のタイムスタンプ
-	let former_filetime = get_filetime(MODULE_PATH).unwrap_or_default();
+	let former_filetime = get_filetime(OUT_PATH).unwrap_or_default();
 
 	// ソリューションをビルドします。
-	let msbuild = getenv("PP_MSBUILD");
-	execute_command(&[&msbuild, "PTouchPrintSender.sln", r#"/p:configuration=Release"#])?;
+	build_solution("PTouchPrintSender.sln")?;
 
 	// ビルド後のタイムスタンプ
-	let current_filetime = get_filetime(MODULE_PATH)?;
+	let current_filetime = get_filetime(OUT_PATH)?;
 
 	// 確認
 	if former_filetime == current_filetime {
-		println!("[INFO] ファイル [{}] はビルドされませんでした。[{}]", MODULE_PATH, current_filetime);
+		println!("[INFO] ファイル [{}] はビルドされませんでした。[{}]", OUT_PATH, current_filetime);
 		return Ok(());
 	}
-	println!("[INFO] ファイル [{}] をビルドしました。[{}]", MODULE_PATH, &current_filetime);
+	println!("[INFO] ファイル [{}] をビルドしました。[{}]", OUT_PATH, &current_filetime);
 
 	return Ok(());
 }
