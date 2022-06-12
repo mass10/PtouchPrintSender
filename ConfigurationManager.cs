@@ -6,10 +6,21 @@ using System.Threading.Tasks;
 
 namespace PtouchPrintSender
 {
+	/// <summary>
+	/// コンフィギュレーション
+	/// </summary>
 	internal sealed class ConfigurationManager
 	{
+		/// <summary>
+		/// テスト実行
+		/// </summary>
 		public bool dryrun = false;
 
+		/// <summary>
+		/// 文字列を bool に変換します。
+		/// </summary>
+		/// <param name="value">文字列</param>
+		/// <returns>結果</returns>
 		private static bool ParseBoolean(string value)
 		{
 			if (value == null)
@@ -17,6 +28,10 @@ namespace PtouchPrintSender
 			return value.ToUpper() == "TRUE";
 		}
 
+		/// <summary>
+		/// コンフィギュレーションの実行
+		/// </summary>
+		/// <returns>オブジェクトのインスタンス</returns>
 		public static ConfigurationManager configure()
 		{
 			var conf = new ConfigurationManager();
@@ -29,7 +44,7 @@ namespace PtouchPrintSender
 			{
 				conf.dryrun = true;
 			}
-			Console.WriteLine("PT_DRYRUN: " + conf.dryrun);
+			//Console.WriteLine("PT_DRYRUN: " + conf.dryrun);
 			return conf;
 		}
 	}
