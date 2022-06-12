@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace PtouchPrintSender
 {
+	/// <summary>
+	/// アプリケーションの本体
+	/// </summary>
 	internal sealed class Program
 	{
 		/// <summary>
@@ -14,6 +17,7 @@ namespace PtouchPrintSender
 		/// <param name="args">コマンドライン引数</param>
 		public static void Main(string[] args)
 		{
+			// コンフィギュレーション
 			var conf = ConfigurationManager.configure();
 			
 			// ドキュメントオブジェクトを初期化
