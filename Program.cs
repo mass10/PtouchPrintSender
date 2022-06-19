@@ -74,7 +74,9 @@ namespace PtouchPrintSender
 					Console.WriteLine("[DEBUG] 住所: [{0}], 氏名: [{1}], 電話: [{2}]",
 							items["AddressText"], items["NameText"], items["PhoneText"]);
 
-					if (conf.dryrun) continue;
+					if (conf.dryrun)
+						// 印刷しない
+						continue;
 
 					// 印刷
 					document.Print(items);
