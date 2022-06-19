@@ -87,10 +87,10 @@ fn run() -> Result<(), Box<dyn std::error::Error>> {
 
 	// 確認
 	if former_filetime == current_filetime {
-		info!("ファイル [{}] はビルドされませんでした。[{}]", OUT_PATH, current_filetime);
+		info!("ファイル [{}] は更新されませんでした。[{}] >> [{}]", OUT_PATH, &former_filetime, &current_filetime);
 		return Ok(());
 	}
-	info!("ファイル [{}] をビルドしました。[{}]", OUT_PATH, &current_filetime);
+	info!("ファイル [{}] をビルドしました。[{}] >> [{}]", OUT_PATH, &former_filetime, &current_filetime);
 
 	return Ok(());
 }
