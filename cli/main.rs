@@ -17,6 +17,7 @@ macro_rules! error {
 /// コマンドを実行します。
 fn execute_command(commands: &[&str]) -> Result<(), Box<dyn std::error::Error>> {
 	let (command, arguments) = commands.split_first().unwrap();
+	info!("コマンドを呼び出しています... [{}]", command);
 	let exit_status = std::process::Command::new(command).args(arguments).spawn()?.wait()?;
 	if !exit_status.success() {
 		let code = exit_status.code().unwrap();
@@ -73,6 +74,8 @@ fn build_solution(path: &str) -> Result<(), Box<dyn std::error::Error>> {
 
 /// アプリケーションを実行します。
 fn run() -> Result<(), Box<dyn std::error::Error>> {
+	info!("##### START BUILD #####");
+
 	// ビルドの出力ファイル
 	const OUT_PATH: &str = r#"bin\Release\PTouchPrintSender.exe"#;
 
