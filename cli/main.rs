@@ -1,8 +1,7 @@
 /// コマンドを実行します。
-#[allow(unused)]
-fn execute_command(command: &[&str]) -> Result<(), Box<dyn std::error::Error>> {
-	let (command_name, arguments) = command.split_first().unwrap();
-	let exit_status = std::process::Command::new(command_name).args(arguments).spawn()?.wait()?;
+fn execute_command(commands: &[&str]) -> Result<(), Box<dyn std::error::Error>> {
+	let (command, arguments) = commands.split_first().unwrap();
+	let exit_status = std::process::Command::new(command).args(arguments).spawn()?.wait()?;
 	if !exit_status.success() {
 		let code = exit_status.code().unwrap();
 		std::process::exit(code);
