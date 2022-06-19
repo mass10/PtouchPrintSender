@@ -7,5 +7,7 @@
 # 注意点
 * b-PAC 32bit 版コンポーネントを、あらかじめインストールしておく必要があります。
 
+# 宛名.lbx
+　印刷用のテンプレートファイルです。P-touch Editor で作成したものです。このファイルを実行時に読み込み、印刷を行います。
 # リンク
 * https://github.com/mass10/PtouchPrintSender
