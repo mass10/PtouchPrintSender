@@ -1,3 +1,19 @@
+/// 簡易ロギング
+macro_rules! info {
+	($($arg:tt)*) => {
+		let line = format!($($arg)*);
+		println!("{} [INFO] {}", get_current_timestamp(), line);
+	};
+}
+
+/// 簡易ロギング
+macro_rules! error {
+	($($arg:tt)*) => {
+		let line = format!($($arg)*);
+		println!("{} [ERROR] {}", get_current_timestamp(), line);
+	};
+}
+
 /// コマンドを実行します。
 fn execute_command(commands: &[&str]) -> Result<(), Box<dyn std::error::Error>> {
 	let (command, arguments) = commands.split_first().unwrap();
@@ -24,6 +40,12 @@ fn execute_shell_command(command: &[&str]) -> Result<(), Box<dyn std::error::Err
 fn format_filetime(time: &std::time::SystemTime) -> String {
 	let timestamp = chrono::DateTime::<chrono::Local>::from(*time);
 	return format!("{}", timestamp.format("%Y-%m-%d %H:%M:%S%.3f"));
+}
+
+/// システムのタイムスタンプを返します。
+fn get_current_timestamp() -> String {
+	let time = chrono::Local::now();
+	return format!("{}", time.format("%Y-%m-%d %H:%M:%S%.3f"));
 }
 
 /// ファイルのタイムスタンプを返します。
@@ -65,10 +87,10 @@ fn run() -> Result<(), Box<dyn std::error::Error>> {
 
 	// 確認
 	if former_filetime == current_filetime {
-		println!("[INFO] ファイル [{}] はビルドされませんでした。[{}]", OUT_PATH, current_filetime);
+		info!("ファイル [{}] はビルドされませんでした。[{}]", OUT_PATH, current_filetime);
 		return Ok(());
 	}
-	println!("[INFO] ファイル [{}] をビルドしました。[{}]", OUT_PATH, &current_filetime);
+	info!("ファイル [{}] をビルドしました。[{}]", OUT_PATH, &current_filetime);
 
 	return Ok(());
 }
@@ -77,7 +99,7 @@ fn run() -> Result<(), Box<dyn std::error::Error>> {
 fn main() {
 	let result = run();
 	if result.is_err() {
-		println!("Error: {}", result.unwrap_err());
+		error!("{}", result.unwrap_err());
 		return;
 	}
 }
