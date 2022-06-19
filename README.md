@@ -6,3 +6,5 @@
 
 # 注意点
 * b-PAC 32bit 版コンポーネントをインストールしておく必要があるようです。
+
+https://github.com/mass10/PtouchPrintSender
