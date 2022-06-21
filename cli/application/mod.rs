@@ -29,7 +29,7 @@ fn execute_shell_command(command: &[&str]) -> Result<(), Box<dyn std::error::Err
 /// * `name` - ビルドするソリューションファイル(.sln)へのパス。.csproj などを指定しても構わない。
 fn build_solution(path: &str) -> Result<(), Box<dyn std::error::Error>> {
 	let msbuild = util::getenv("PP_MSBUILD");
-	execute_command(&[&msbuild, path, r#"/p:configuration=Release"#])?;
+	execute_command(&[&msbuild, path, "/p:configuration=Release"])?;
 	return Ok(());
 }
 
