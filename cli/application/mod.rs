@@ -6,6 +6,7 @@ fn execute_command(commands: &[&str]) -> Result<(), Box<dyn std::error::Error>> 
 	let (command, arguments) = commands.split_first().unwrap();
 
 	info!("コマンドを呼び出しています... [{}]", command);
+	println!("-------------------------------------------------------");
 
 	// コマンドを呼び出し
 	let exit_status = std::process::Command::new(command).args(arguments).spawn()?.wait()?;
@@ -13,6 +14,8 @@ fn execute_command(commands: &[&str]) -> Result<(), Box<dyn std::error::Error>> 
 		let code = exit_status.code().unwrap();
 		std::process::exit(code);
 	}
+
+	println!("-------------------------------------------------------");
 	return Ok(());
 }
 
