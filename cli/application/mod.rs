@@ -2,20 +2,13 @@ use crate::{info, util};
 
 /// コマンドを実行します。
 fn execute_command(commands: &[&str]) -> Result<(), Box<dyn std::error::Error>> {
+	// コマンドへのパスと引数に分割
 	let (command, arguments) = commands.split_first().unwrap();
-	info!("コマンドを呼び出しています... [{}]", command);
-	let exit_status = std::process::Command::new(command).args(arguments).spawn()?.wait()?;
-	if !exit_status.success() {
-		let code = exit_status.code().unwrap();
-		std::process::exit(code);
-	}
-	return Ok(());
-}
 
-/// OS のシェル内でコマンドを実行します。
-#[allow(unused)]
-fn execute_shell_command(command: &[&str]) -> Result<(), Box<dyn std::error::Error>> {
-	let exit_status = std::process::Command::new("cmd.exe").arg("/C").args(command).spawn()?.wait()?;
+	info!("コマンドを呼び出しています... [{}]", command);
+
+	// コマンドを呼び出し
+	let exit_status = std::process::Command::new(command).args(arguments).spawn()?.wait()?;
 	if !exit_status.success() {
 		let code = exit_status.code().unwrap();
 		std::process::exit(code);
