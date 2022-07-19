@@ -48,22 +48,26 @@ namespace PtouchPrintSender
 			}
 		}
 
+		/// <summary>
+		/// ドキュメントを印刷します。
+		/// </summary>
+		/// <param name="fields">変数のマッピング情報</param>
 		public void Print(Dictionary<string, string> fields)
 		{
-			if (fields == null)
-			{
-				throw new Exception("Application Error! reason: fields is null.");
-			}
+			// ドキュメントオブジェクトを参照
 			var document = this.GetDocumentObject();
 
 			foreach (var e in fields)
 			{
+				// ドキュメント内のプレースホルダーを参照
 				var field = document.GetObject(e.Key);
 				if (field == null)
 				{
 					Console.WriteLine("[ERROR] field is undefined. key: [{0}]", e.Key);
 					continue;
 				}
+
+				// 文字列を埋め込み
 				document.GetObject(e.Key).Text = e.Value;
 			}
 
