@@ -19,7 +19,7 @@ namespace PtouchPrintSender
 		{
 			// コンフィギュレーション
 			var conf = ConfigurationManager.configure();
-			
+
 			// ドキュメントオブジェクトを初期化
 			var document = new BrotherPrinterDocument();
 
@@ -148,44 +148,36 @@ namespace PtouchPrintSender
 			{
 				return "";
 			}
+			if (!IsNumber(phone))
+			{
+				return phone;
+			}
 			if (phone.StartsWith("050"))
 			{
-				if (IsNumber(phone))
+				if (phone.Length == 11)
 				{
-					if (phone.Length == 11)
-					{
-						return $"電話: {phone.Substring(0, 3)}-{phone.Substring(3, 4)}-{phone.Substring(7, 4)}";
-					}
+					return $"電話: {phone.Substring(0, 3)}-{phone.Substring(3, 4)}-{phone.Substring(7, 4)}";
 				}
 			}
 			else if (phone.StartsWith("070"))
 			{
-				if (IsNumber(phone))
+				if (phone.Length == 11)
 				{
-					if (phone.Length == 11)
-					{
-						return $"電話: {phone.Substring(0, 3)}-{phone.Substring(3, 4)}-{phone.Substring(7, 4)}";
-					}
+					return $"電話: {phone.Substring(0, 3)}-{phone.Substring(3, 4)}-{phone.Substring(7, 4)}";
 				}
 			}
 			else if (phone.StartsWith("080"))
 			{
-				if (IsNumber(phone))
+				if (phone.Length == 11)
 				{
-					if (phone.Length == 11)
-					{
-						return $"電話: {phone.Substring(0, 3)}-{phone.Substring(3, 4)}-{phone.Substring(7, 4)}";
-					}
+					return $"電話: {phone.Substring(0, 3)}-{phone.Substring(3, 4)}-{phone.Substring(7, 4)}";
 				}
 			}
 			else if (phone.StartsWith("090"))
 			{
-				if (IsNumber(phone))
+				if (phone.Length == 11)
 				{
-					if (phone.Length == 11)
-					{
-						return $"電話: {phone.Substring(0, 3)}-{phone.Substring(3, 4)}-{phone.Substring(7, 4)}";
-					}
+					return $"電話: {phone.Substring(0, 3)}-{phone.Substring(3, 4)}-{phone.Substring(7, 4)}";
 				}
 			}
 			return phone;
