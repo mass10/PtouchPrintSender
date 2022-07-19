@@ -52,21 +52,21 @@ namespace PtouchPrintSender
 
 					var columns = line.Split('\t');
 					// 郵便番号
-					var postCode = StringUtility.RetrieveField(columns, 0);
+					var postCode = StringUtility.At(columns, 0);
 					if (postCode == "")
 						continue;
 					// 住所
-					var address = StringUtility.RetrieveField(columns, 1);
+					var address = StringUtility.At(columns, 1);
 					if (address == "")
 						continue;
 					// お名前
-					var name = StringUtility.RetrieveField(columns, 2);
+					var name = StringUtility.At(columns, 2);
 					// 電話番号(もしあれば)
-					var phoneNumber = StringUtility.RetrieveField(columns, 3);
+					var phoneNumber = StringUtility.At(columns, 3);
 					// 製品名(もしあれば)
-					var productName = StringUtility.RetrieveField(columns, 4);
+					var productName = StringUtility.At(columns, 4);
 					// サイズ(もしあれば)
-					var size = StringUtility.RetrieveField(columns, 5);
+					var size = StringUtility.At(columns, 5);
 
 					var fields = new Dictionary<string, string>();
 					// 宛名
