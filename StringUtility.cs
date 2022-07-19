@@ -149,7 +149,7 @@ namespace PtouchPrintSender
 		/// <param name="fields">配列</param>
 		/// <param name="index">位置</param>
 		/// <returns></returns>
-		public static string RetrieveField(string[] fields, int index)
+		public static string At(string[] fields, int index)
 		{
 			if (fields == null)
 				return "";
