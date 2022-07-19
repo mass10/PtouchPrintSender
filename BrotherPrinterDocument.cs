@@ -35,6 +35,10 @@ namespace PtouchPrintSender
 			return this._document;
 		}
 
+		/// <summary>
+		/// テンプレートファイルにアタッチします。
+		/// </summary>
+		/// <param name="templateFileName">テンプレートファイル名</param>
 		public void AttachDocumentTemplate(string path)
 		{
 			var document = this.GetDocumentObject();
@@ -48,7 +52,7 @@ namespace PtouchPrintSender
 		{
 			if (fields == null)
 			{
-				throw new Exception("Application Error! reason: filed is null.");
+				throw new Exception("Application Error! reason: fields is null.");
 			}
 			var document = this.GetDocumentObject();
 
@@ -80,6 +84,9 @@ namespace PtouchPrintSender
 			Console.WriteLine("[DEBUG] プリンターオブジェクトが解放されました。");
 		}
 
+		/// <summary>
+		/// リソースを解放します。
+		/// </summary>
 		public void Dispose()
 		{
 			this.Close();
