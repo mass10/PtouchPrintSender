@@ -32,7 +32,7 @@ namespace PtouchPrintSender
 		/// コンフィギュレーションの実行
 		/// </summary>
 		/// <returns>オブジェクトのインスタンス</returns>
-		public static ConfigurationManager configure()
+		public static ConfigurationManager Configure()
 		{
 			var conf = new ConfigurationManager();
 
