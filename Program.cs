@@ -17,11 +17,12 @@ namespace PtouchPrintSender
 		/// <param name="args">コマンドライン引数</param>
 		public static void Main(string[] args)
 		{
-			// コンフィギュレーション
-			var conf = ConfigurationManager.configure();
-
 			try
 			{
+				// コンフィギュレーション
+				var conf = ConfigurationManager.Configure();
+
+				// アプリケーションを実行
 				new Application().Run(conf);
 			}
 			catch (Exception e)
