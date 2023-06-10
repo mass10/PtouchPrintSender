@@ -336,5 +336,7 @@ ASALocalRun/
 
 # Added by cargo
 
-/target
+target/
 ADDRESS.tsv
+
+Cargo.lock
