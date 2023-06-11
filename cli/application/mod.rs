@@ -23,12 +23,21 @@ fn execute_command(commands: &[&str]) -> Result<(), Box<dyn std::error::Error>> 
 	return Ok(());
 }
 
+/// MSBuild.exe のパスを返します。
+fn detect_msbuild() -> String {
+	let msbuild = util::getenv("PP_MSBUILD");
+	if msbuild != "" {
+		return msbuild;
+	}
+	return "MSBuild.exe".to_string();
+}
+
 /// ソリューションをビルドします。
 ///
 /// # Arguments
 /// * `name` - ビルドするソリューションファイル(.sln)へのパス。.csproj などを指定しても構わない。
 fn build_solution(path: &str) -> Result<(), Box<dyn std::error::Error>> {
-	let msbuild = util::getenv("PP_MSBUILD");
+	let msbuild = detect_msbuild();
 	execute_command(&[&msbuild, path, "/p:configuration=Release"])?;
 	return Ok(());
 }
