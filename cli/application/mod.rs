@@ -59,15 +59,32 @@ pub fn run_build() -> Result<(), Box<dyn std::error::Error>> {
 	return Ok(());
 }
 
+fn build_if_needed() -> Result<(), Box<dyn std::error::Error>> {
+	if util::exists_file(r"bin\Release\PTouchPrintSender.exe") {
+		// バイナリが存在する場合はビルドをスキップします。
+		return Ok(());
+	}
+
+	// ソリューションをビルドします。
+	build_solution("PTouchPrintSender.sln")?;
+
+	return Ok(());
+}
+
 /// 印刷を実行します。
 pub fn run_print(path: &str, dryrun: bool) -> Result<(), Box<dyn std::error::Error>> {
 	info!("##### START PRINT #####");
 
+	// バイナリファイルが無い場合はビルドします。
+	build_if_needed()?;
+
 	let mut command: Vec<&str> = vec![];
 	command.push(r"bin\Release\PtouchPrintSender.exe");
+
 	if dryrun {
 		command.push("--dryrun");
 	}
+
 	if path != "" {
 		command.push("--address-file");
 		command.push(path);
