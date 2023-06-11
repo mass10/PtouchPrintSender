@@ -27,6 +27,7 @@ fn main() {
 		eprintln!("{}", options.usage("PtouchPrintSender brother ラベルプリンターにラベル出力を行います。"));
 	} else if input.opt_present("build") {
 		// ========== OPTIONAL: LAUNCH BUILD ==========
+		// ビルド
 		let result = application::run_build();
 		if result.is_err() {
 			// MSBuild のエラー
@@ -35,14 +36,19 @@ fn main() {
 		}
 	} else if input.opt_present("print") {
 		// ========== OPTIONAL: LAUNCH PRINT ==========
+		// アドレス帳ファイル(固定)
+		let address_file = "ADDRESS.tsv";
+		// option: dryrun
 		let dryrun = input.opt_present("dryrun");
-		let result = application::run_print("ADDRESS.tsv", dryrun);
+		// 印刷
+		let result = application::run_print(address_file, dryrun);
 		if result.is_err() {
 			exit_with_error(result.err().unwrap());
 			return;
 		}
 	} else {
 		// ========== DEFAULT: LAUNCH BUILD ==========
+		// ビルド
 		let result = application::run_build();
 		if result.is_err() {
 			// MSBuild のエラー
