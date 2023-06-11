@@ -1,5 +1,5 @@
 @REM
-@REM ˆóü‚ğs‚¢‚Ü‚·B
+@REM å°åˆ·ã‚’è¡Œã„ã¾ã™ã€‚
 @REM
 
 @rem cargo run -- --print --dryrun
