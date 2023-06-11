@@ -11,9 +11,9 @@ fn main() {
 
 	let mut options = getopts::Options::new();
 	options.optflag("h", "help", "Show usage.");
-	options.optflag("", "build", "Build application.");
+	options.optflag("", "build", "Build application. (DEFAULT)");
 	options.optflag("", "print", "Launch printer.");
-	options.optflag("", "dryrun", "print dry run.");
+	options.optflag("", "dryrun", "Launch printer. (dry run)");
 
 	let result = options.parse(args);
 	if result.is_err() {
@@ -24,29 +24,34 @@ fn main() {
 
 	if input.opt_present("help") {
 		// ========== OPTIONAL: SHOW HELP ==========
-		eprintln!("{}", options.usage(""));
+		eprintln!("{}", options.usage("PtouchPrintSender brother ラベルプリンターにラベル出力を行います。"));
 	} else if input.opt_present("build") {
 		// ========== OPTIONAL: LAUNCH BUILD ==========
 		let result = application::run_build();
-		report_error(&result);
+		if result.is_err() {
+			exit_with_error(result.err().unwrap());
+			return;
+		}
 	} else if input.opt_present("print") {
 		// ========== OPTIONAL: LAUNCH PRINT ==========
 		let dryrun = input.opt_present("dryrun");
-		let result = application::run_print(dryrun);
-		report_error(&result);
+		let result = application::run_print("ADDRESS.tsv", dryrun);
+		if result.is_err() {
+			exit_with_error(result.err().unwrap());
+			return;
+		}
 	} else {
 		// ========== DEFAULT: LAUNCH BUILD ==========
 		let result = application::run_build();
-		report_error(&result);
+		if result.is_err() {
+			exit_with_error(result.err().unwrap());
+			return;
+		}
 	}
 }
 
 /// エラー検出
-fn report_error(result: &Result<(), Box<dyn std::error::Error>>) {
-	if result.is_ok() {
-		return;
-	}
-	let error = result.as_ref().unwrap_err();
+fn exit_with_error(error: Box<dyn std::error::Error>) {
 	error!("{}", error);
 	std::process::exit(1);
 }
