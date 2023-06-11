@@ -2,8 +2,5 @@
 @REM ˆóü‚ğs‚¢‚Ü‚·B
 @REM
 
-@REM ==================== dry-run İ’è ====================
-@SET PT_DRYRUN=true
-@SET PT_DRYRUN=
-
-@bin\Release\PtouchPrintSender.exe %*
+@rem cargo run -- --print --dryrun
+@cargo run -- --print --dryrun
