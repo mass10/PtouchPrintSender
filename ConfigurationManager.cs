@@ -17,6 +17,11 @@ namespace PtouchPrintSender
 		public bool dryrun = false;
 
 		/// <summary>
+		/// アドレス帳ファイル
+		/// </summary>
+		public readonly List<string> addressFiles = new List<string>();
+
+		/// <summary>
 		/// 文字列を bool に変換します。
 		/// </summary>
 		/// <param name="value">文字列</param>
@@ -36,15 +41,10 @@ namespace PtouchPrintSender
 		{
 			var conf = new ConfigurationManager();
 
-			// PT_DRYRUN
-			var dryrun = false; //ParseBoolean(System.Environment.GetEnvironmentVariable("PT_DRYRUN", System.EnvironmentVariableTarget.Process));
-			// conf.dryrun = dryrun;
-
 			// コマンドライン引数の読み取り
 			// * OPTION: --dryrun (bool)
 			// * OPTION: --address-file (multiple)
 
-			var addressFiles = new List<string>();
 			var currentSection = "";
 
 			foreach (var arg in System.Environment.GetCommandLineArgs().Skip(1))
@@ -57,7 +57,7 @@ namespace PtouchPrintSender
 				else if (arg.StartsWith("--address-file="))
 				{
 					// オプションと値が同時に指定されている
-					addressFiles.Add(arg.Substring("--address-file=".Length));
+					conf.addressFiles.Add(arg.Substring("--address-file=".Length));
 				}
 				else if (arg == "--address-file")
 				{
@@ -77,7 +77,7 @@ namespace PtouchPrintSender
 				}
 				else if (currentSection == "address-file")
 				{
-					if (arg != "") addressFiles.Add(arg);
+					if (arg != "") conf.addressFiles.Add(arg);
 					currentSection = "";
 				}
 				else
@@ -88,9 +88,7 @@ namespace PtouchPrintSender
 			}
 
 			Console.WriteLine("--dryrun: " + conf.dryrun);
-			Console.WriteLine("--address-file: " + string.Join(", ", addressFiles));
-
-			throw new Exception("テスト完了");
+			Console.WriteLine("--address-file: " + string.Join(", ", conf.addressFiles));
 
 			return conf;
 		}
