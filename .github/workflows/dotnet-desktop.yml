@@ -1,0 +1,49 @@
+name: .NET Core Desktop
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+
+  build:
+
+    runs-on: windows-latest  # For a list of available runner types, refer to
+                             # https://help.github.com/en/actions/reference/workflow-syntax-for-github-actions#jobsjob_idruns-on
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v3
+      with:
+        fetch-depth: 1
+
+    # Add  MSBuild to the PATH: https://github.com/microsoft/setup-msbuild
+    - name: Setup MSBuild.exe
+      uses: microsoft/setup-msbuild@v1.0.2
+
+    # Execute all unit tests in the solution
+    - name: Execute unit tests
+      run: dotnet test
+
+    # Restore the application to populate the obj folder with RuntimeIdentifiers
+    - name: Restore the application
+      run: msbuild /t:Restore /p:Configuration=Release
+
+    # Create the app package by building and packaging the Windows Application Packaging project
+    - name: Create the app package
+      run: msbuild /p:Configuration=Release
+
+    - name: Download crate
+      run: |
+          Invoke-WebRequest -Uri "https://github.com/mass10/r-gh-create-release/releases/latest/download/r-gh-create-release.exe" -OutFile "r-gh-create-release.exe"
+          .\r-gh-create-release.exe --help
+
+    - name: Create a new release (auto)
+      run: .\r-gh-create-release
+              --file "bin\Release\PtouchPrintSender.exe"
+              --file "bin\Release\Interop.bpac.dll"
+              --file "ADDRESS.tsv.BAK"
+      env:
+           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
