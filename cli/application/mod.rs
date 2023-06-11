@@ -34,7 +34,7 @@ fn build_solution(path: &str) -> Result<(), Box<dyn std::error::Error>> {
 }
 
 /// アプリケーションを実行します。
-pub fn run() -> Result<(), Box<dyn std::error::Error>> {
+pub fn run_build() -> Result<(), Box<dyn std::error::Error>> {
 	info!("##### START BUILD #####");
 
 	// ビルドの出力ファイル
@@ -55,6 +55,20 @@ pub fn run() -> Result<(), Box<dyn std::error::Error>> {
 		return Ok(());
 	}
 	info!("ファイル [{}] をビルドしました。[{}] >> [{}]", OUT_PATH, &former_filetime, &current_filetime);
+
+	return Ok(());
+}
+
+pub fn run_print(dryrun: bool) -> Result<(), Box<dyn std::error::Error>> {
+	info!("##### START PRINT #####");
+
+	let mut command: Vec<&str> = vec![];
+	command.push(r"bin\Release\PtouchPrintSender.exe");
+	if dryrun {
+		command.push("--dryrun");
+	}
+
+	execute_command(&command)?;
 
 	return Ok(());
 }
