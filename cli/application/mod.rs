@@ -59,13 +59,18 @@ pub fn run_build() -> Result<(), Box<dyn std::error::Error>> {
 	return Ok(());
 }
 
-pub fn run_print(dryrun: bool) -> Result<(), Box<dyn std::error::Error>> {
+/// 印刷を実行します。
+pub fn run_print(path: &str, dryrun: bool) -> Result<(), Box<dyn std::error::Error>> {
 	info!("##### START PRINT #####");
 
 	let mut command: Vec<&str> = vec![];
 	command.push(r"bin\Release\PtouchPrintSender.exe");
 	if dryrun {
 		command.push("--dryrun");
+	}
+	if path != "" {
+		command.push("--address-file");
+		command.push(path);
 	}
 
 	execute_command(&command)?;
