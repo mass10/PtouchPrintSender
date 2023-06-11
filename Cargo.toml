@@ -12,3 +12,4 @@ path = "cli/main.rs"
 
 [dependencies]
 chrono = "*"
+getopts = "*"
