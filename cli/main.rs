@@ -29,6 +29,7 @@ fn main() {
 		// ========== OPTIONAL: LAUNCH BUILD ==========
 		let result = application::run_build();
 		if result.is_err() {
+			// MSBuild のエラー
 			exit_with_error(result.err().unwrap());
 			return;
 		}
@@ -44,6 +45,7 @@ fn main() {
 		// ========== DEFAULT: LAUNCH BUILD ==========
 		let result = application::run_build();
 		if result.is_err() {
+			// MSBuild のエラー
 			exit_with_error(result.err().unwrap());
 			return;
 		}
