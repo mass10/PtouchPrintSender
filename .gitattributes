@@ -1,5 +1,4 @@
 # Auto detect text files and perform LF normalization
 * text=auto
 
-#*.bat text diff=sjis working-tree-encoding=sjis eol=crlf
-*.bat text diff=sjis eol=crlf
+*.bat text diff=sjis working-tree-encoding=sjis eol=crlf
