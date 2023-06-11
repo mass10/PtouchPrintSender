@@ -20,6 +20,12 @@ macro_rules! error {
 	};
 }
 
+/// ファイルの有無を確認します。
+pub fn exists_file(path: &str) -> bool {
+	let path = std::path::Path::new(path);
+	return path.exists();
+}
+
 /// std::time::SystemTime の文字列表現を返します。
 ///
 /// # Arguments
