@@ -1,5 +1,8 @@
 # PtouchPrintSender 2021-10-23
 　ブラザー工業 ラベルプリンター向け b-PAC(Brother P-touch Applicable Component、COM コンポーネント)を用いて、プリンター出力を行うコマンドラインアプリケーションのサンプルです。
+
+# Getting Started
+* releases から最新のバイナリーファイルをダウンロードして実行します。
  
 # 補足
 * あらかじめ COM 参照をプロジェクトに追加しています。これにより、型やシンボルがある程度明らかになります。
