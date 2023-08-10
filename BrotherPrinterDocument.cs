@@ -84,12 +84,14 @@ namespace PtouchPrintSender
 		{
 			// まとめて印刷した方がパフォーマンスが向上します。
 			// this._document.EndPrint();
+
 			this._document.Close();
-			Console.WriteLine("[DEBUG] プリンターオブジェクトが解放されました。");
+
+			// Console.WriteLine("[DEBUG] プリンターオブジェクトが解放されました。");
 		}
 
 		/// <summary>
-		/// リソースを解放します。
+		/// リソースを解放します。IDisposable の実装です。
 		/// </summary>
 		public void Dispose()
 		{
