@@ -106,7 +106,7 @@ namespace PtouchPrintSender
 					return $"電話: {phone.Substring(0, 3)}-{phone.Substring(3, 4)}-{phone.Substring(7, 4)}";
 				}
 			}
-			return phone;
+			return $"電話: {phone}";
 		}
 
 		/// <summary>
