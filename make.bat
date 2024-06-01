@@ -8,7 +8,7 @@
 @REM  * Rust によって記述されています。rustup が必要です。
 @REM
 
-@SET PP_MSBUILD=C:¥Program Files (x86)¥Microsoft Visual Studio¥2019¥Community¥MSBuild¥Current¥Bin¥MSBuild.exe
+@SET PATH=C:¥Program Files (x86)¥Microsoft Visual Studio¥2019¥Community¥MSBuild¥Current¥Bin;%PATH%
 
 @cargo fmt
 @cargo run -- %*

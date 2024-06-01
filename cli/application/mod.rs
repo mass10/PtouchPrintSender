@@ -25,10 +25,6 @@ fn execute_command(commands: &[&str]) -> Result<(), Box<dyn std::error::Error>> 
 
 /// MSBuild.exe のパスを返します。
 fn detect_msbuild() -> String {
-	let msbuild = util::getenv("PP_MSBUILD");
-	if msbuild != "" {
-		return msbuild;
-	}
 	return "MSBuild.exe".to_string();
 }
 
@@ -47,13 +43,13 @@ pub fn run_build() -> Result<(), Box<dyn std::error::Error>> {
 	info!("##### START BUILD #####");
 
 	// ビルドの出力ファイル
-	const OUT_PATH: &str = r#"bin\Release\PTouchPrintSender.exe"#;
+	const OUT_PATH: &str = r"PtouchPrintSenderApp\bin\Release\PTouchPrintSender.exe";
 
 	// 最初のタイムスタンプ
 	let former_filetime = util::get_filetime(OUT_PATH).unwrap_or_default();
 
 	// ソリューションをビルドします。
-	build_solution("PTouchPrintSender.sln")?;
+	build_solution(r"PtouchPrintSenderApp\PTouchPrintSender.sln")?;
 
 	// ビルド後のタイムスタンプ
 	let current_filetime = util::get_filetime(OUT_PATH)?;
@@ -69,13 +65,13 @@ pub fn run_build() -> Result<(), Box<dyn std::error::Error>> {
 }
 
 fn build_if_needed() -> Result<(), Box<dyn std::error::Error>> {
-	if util::exists_file(r"bin\Release\PTouchPrintSender.exe") {
+	if util::exists_file(r"PtouchPrintSenderApp\bin\Release\PTouchPrintSender.exe") {
 		// バイナリが存在する場合はビルドをスキップします。
 		return Ok(());
 	}
 
 	// ソリューションをビルドします。
-	build_solution("PTouchPrintSender.sln")?;
+	build_solution(r"PtouchPrintSenderApp\PTouchPrintSender.sln")?;
 
 	return Ok(());
 }
@@ -88,7 +84,7 @@ pub fn run_print(path: &str, dryrun: bool) -> Result<(), Box<dyn std::error::Err
 	build_if_needed()?;
 
 	let mut command: Vec<&str> = vec![];
-	command.push(r"bin\Release\PtouchPrintSender.exe");
+	command.push(r"PtouchPrintSenderApp\bin\Release\PtouchPrintSender.exe");
 
 	if dryrun {
 		command.push("--dryrun");

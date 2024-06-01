@@ -65,6 +65,7 @@ pub fn get_filetime(path: &str) -> Result<String, Box<dyn std::error::Error>> {
 ///
 /// # Returns
 /// 環境変数
+#[allow(unused)]
 pub fn getenv(name: &str) -> String {
 	return std::env::var(name).unwrap_or_else(|_| "".to_string());
 }
