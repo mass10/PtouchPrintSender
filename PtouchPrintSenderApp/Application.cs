@@ -50,6 +50,8 @@ namespace PtouchPrintSender
 			// ドキュメントオブジェクトを初期化
 			var document = new BrotherPrinterDocument();
 
+			int recordCount = 0;
+
 			try
 			{
 				// テンプレートファイルにアタッチ
@@ -95,10 +97,15 @@ namespace PtouchPrintSender
 					// 印刷
 					MyLogger.Info("(印字中)");
 					document.Print(fields);
+
+					recordCount++;
 				}
 			}
 			finally
 			{
+				// 結果件数を表示
+				MyLogger.Info("印刷が完了しました。処理件数: [", recordCount, "件]");
+				
 				MyLogger.Info("ドキュメントをクローズしています...");
 				document.Close();
 			}
