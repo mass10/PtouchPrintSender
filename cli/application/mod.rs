@@ -64,9 +64,11 @@ pub fn run_build() -> Result<(), Box<dyn std::error::Error>> {
 	return Ok(());
 }
 
+/// 印刷アプリケーションを、もし必要ならビルドします。
 fn build_if_needed() -> Result<(), Box<dyn std::error::Error>> {
 	if util::exists_file(r"PtouchPrintSenderApp\bin\Release\PTouchPrintSender.exe") {
 		// バイナリが存在する場合はビルドをスキップします。
+		info!("バイナリファイルが存在します。ビルドをスキップします。(もし更新が必要なら、make を実行してください)");
 		return Ok(());
 	}
 
