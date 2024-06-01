@@ -19,15 +19,19 @@ namespace PtouchPrintSender
 		{
 			try
 			{
+				MyLogger.Info("### START ###");
+
 				// コンフィギュレーション
 				var conf = ConfigurationManager.Configure();
 
 				// アプリケーションを実行
 				new Application().Run(conf);
+
+				MyLogger.Info("--- END ---");
 			}
 			catch (Exception e)
 			{
-				Console.WriteLine("[ERROR] 予期しない実行時エラーです。" + e);
+				MyLogger.Error("予期しない実行時エラーです。" + e);
 			}
 		}
 	}

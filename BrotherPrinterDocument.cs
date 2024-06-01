@@ -63,7 +63,7 @@ namespace PtouchPrintSender
 				var field = document.GetObject(e.Key);
 				if (field == null)
 				{
-					Console.WriteLine("[ERROR] field is undefined. key: [{0}]", e.Key);
+					MyLogger.Error("フィールド [{0}] が未定義です。", e.Key);
 					continue;
 				}
 
@@ -86,8 +86,6 @@ namespace PtouchPrintSender
 			// this._document.EndPrint();
 
 			this._document.Close();
-
-			// Console.WriteLine("[DEBUG] プリンターオブジェクトが解放されました。");
 		}
 
 		/// <summary>

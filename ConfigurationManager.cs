@@ -87,8 +87,8 @@ namespace PtouchPrintSender
 				}
 			}
 
-			Console.WriteLine("--dryrun: " + conf.dryrun);
-			Console.WriteLine("--address-file: " + string.Join(", ", conf.addressFiles));
+			MyLogger.Info("--dryrun: [", conf.dryrun, "]");
+			MyLogger.Info("--address-file: [", string.Join(", ", conf.addressFiles), "]");
 
 			return conf;
 		}
